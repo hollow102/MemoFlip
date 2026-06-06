@@ -1,0 +1,328 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply h-full;
+  }
+  body {
+    @apply h-full bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+  }
+}
+
+@layer components {
+  .app-body {
+    @apply flex min-h-full flex-col;
+  }
+
+  .app-header {
+    @apply sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800;
+  }
+
+  .app-title {
+    @apply text-lg font-bold tracking-tight;
+  }
+
+  .app-header-actions {
+    @apply flex items-center gap-2;
+  }
+
+  .app-main {
+    @apply mx-auto w-full max-w-3xl flex-1 px-4 py-6;
+  }
+
+  .icon-button {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-lg text-lg transition hover:bg-gray-100 dark:hover:bg-gray-700;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-indigo-600 text-white hover:bg-indigo-700;
+  }
+
+  .btn-secondary {
+    @apply btn border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700;
+  }
+
+  /* フリップカード */
+  .flip-card {
+    @apply relative mx-auto aspect-[3/2] w-full max-w-xl cursor-pointer select-none [perspective:1200px];
+  }
+
+  .flip-card-inner {
+    @apply relative h-full w-full transition-transform duration-500 [transform-style:preserve-3d];
+  }
+
+  .flip-card.is-flipped .flip-card-inner {
+    @apply [transform:rotateY(180deg)];
+  }
+
+  .flip-card-face {
+    @apply absolute inset-0 flex items-center justify-center overflow-auto rounded-2xl border border-gray-200 bg-white p-6 text-center shadow [backface-visibility:hidden] dark:border-gray-700 dark:bg-gray-800;
+  }
+
+  .flip-card-back {
+    @apply [transform:rotateY(180deg)];
+  }
+
+  /* トースト */
+  .toast-root {
+    @apply pointer-events-none fixed bottom-4 right-4 z-50 flex flex-col gap-2;
+  }
+
+  .toast {
+    @apply pointer-events-auto rounded-lg px-4 py-3 text-sm text-white shadow-lg;
+  }
+
+  .toast--success {
+    @apply bg-emerald-600;
+  }
+
+  .toast--error {
+    @apply bg-rose-600;
+  }
+
+  /* インライン SVG アイコン（currentColor を継承） */
+  .icon {
+    @apply inline-block shrink-0 align-[-0.15em];
+  }
+
+  .text-correct {
+    @apply text-emerald-600 dark:text-emerald-400;
+  }
+
+  .text-incorrect {
+    @apply text-rose-600 dark:text-rose-400;
+  }
+
+  /* 問題集一覧 */
+  .deck-search {
+    @apply w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 dark:border-gray-600 dark:bg-gray-800;
+  }
+
+  .deck-list {
+    @apply space-y-2;
+  }
+
+  .deck-row {
+    @apply flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800;
+  }
+
+  .deck-row-name {
+    @apply font-medium;
+  }
+
+  .deck-row-meta {
+    @apply mt-0.5 text-xs text-gray-500 dark:text-gray-400;
+  }
+
+  .deck-row-actions {
+    @apply flex shrink-0 items-center gap-2;
+  }
+
+  .empty-state {
+    @apply rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center dark:border-gray-600 dark:bg-gray-800;
+  }
+
+  /* モーダル */
+  .modal-overlay {
+    @apply fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-4;
+  }
+
+  .modal {
+    @apply w-full max-w-md rounded-2xl bg-white shadow-xl dark:bg-gray-800;
+  }
+
+  .modal-header {
+    @apply flex items-center justify-between border-b border-gray-200 px-5 py-3 dark:border-gray-700;
+  }
+
+  .modal-title {
+    @apply text-base font-bold;
+  }
+
+  .modal-body {
+    @apply px-5 py-4;
+  }
+
+  .modal-footer {
+    @apply flex items-center justify-end gap-2 border-t border-gray-200 px-5 py-3 dark:border-gray-700;
+  }
+
+  .field {
+    @apply block;
+  }
+
+  .field-label {
+    @apply mb-1 block text-sm font-medium;
+  }
+
+  .field-input {
+    @apply w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 dark:border-gray-600 dark:bg-gray-900;
+  }
+
+  .fieldset {
+    @apply space-y-1;
+  }
+
+  .radio-row {
+    @apply flex items-center gap-2 text-sm;
+  }
+
+  .check-chip-group {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .check-chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-gray-300 px-3 py-1 text-xs dark:border-gray-600;
+  }
+
+  /* 演習画面 */
+  .study {
+    @apply space-y-4;
+  }
+
+  .study-topbar {
+    @apply flex items-center justify-between;
+  }
+
+  .study-progress-text {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  .study-progress {
+    @apply h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700;
+  }
+
+  .study-progress-bar {
+    @apply h-full bg-indigo-500 transition-all;
+  }
+
+  .card-content {
+    @apply text-xl leading-relaxed;
+  }
+
+  .card-content--mini {
+    @apply max-h-16 overflow-hidden text-sm;
+  }
+
+  .study-actions {
+    @apply flex items-center justify-center gap-3;
+  }
+
+  .study-answer {
+    @apply min-w-[8rem] py-3 text-base font-semibold text-white;
+  }
+
+  .study-answer--correct {
+    @apply bg-emerald-600 hover:bg-emerald-700;
+  }
+
+  .study-answer--incorrect {
+    @apply bg-rose-600 hover:bg-rose-700;
+  }
+
+  /* 結果画面 */
+  .result-summary {
+    @apply rounded-2xl border border-gray-200 bg-white py-8 text-center dark:border-gray-700 dark:bg-gray-800;
+  }
+
+  .result-accuracy {
+    @apply text-5xl font-bold;
+  }
+
+  .result-counts {
+    @apply mt-2 text-sm;
+  }
+
+  .wrong-card-list {
+    @apply space-y-2;
+  }
+
+  .wrong-card {
+    @apply rounded-lg border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-800;
+  }
+
+  .result-actions {
+    @apply flex flex-col items-stretch gap-2 sm:flex-row sm:justify-center;
+  }
+
+  /* 共通の画面ヘッダ */
+  .screen-topbar {
+    @apply flex items-center gap-3;
+  }
+
+  .screen-title {
+    @apply text-lg font-bold;
+  }
+
+  /* 履歴画面 */
+  .history-list {
+    @apply space-y-2;
+  }
+
+  .history-row {
+    @apply flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800;
+  }
+
+  .history-meta {
+    @apply mt-0.5 text-xs text-gray-500 dark:text-gray-400;
+  }
+
+  .history-score {
+    @apply shrink-0 text-right;
+  }
+
+  .history-incomplete {
+    @apply text-xs text-amber-600 dark:text-amber-400;
+  }
+
+  .history-row--clickable {
+    @apply cursor-pointer transition hover:border-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700;
+  }
+
+  /* 履歴詳細ダイアログ */
+  .modal--wide {
+    @apply max-w-lg;
+  }
+
+  .history-detail-summary {
+    @apply rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm dark:border-gray-700 dark:bg-gray-900;
+  }
+
+  .history-detail-list {
+    @apply max-h-[55vh] space-y-2 overflow-y-auto;
+  }
+
+  .history-detail-card {
+    @apply space-y-2 rounded-lg border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-800;
+  }
+
+  .history-detail-card-head {
+    @apply flex items-center gap-2;
+  }
+
+  .history-detail-index {
+    @apply inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-gray-100 px-1.5 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300;
+  }
+
+  .history-detail-badge {
+    @apply text-xs font-semibold;
+  }
+
+  .history-detail-face {
+    @apply space-y-1;
+  }
+
+  .history-detail-face-label {
+    @apply block text-xs font-medium text-gray-500 dark:text-gray-400;
+  }
+
+  .history-detail-missing {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+}

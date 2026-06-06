@@ -1,0 +1,27 @@
+{
+  "id": "sample-english",
+  "name": "サンプル英単語",
+  "description": "取り込み確認用のサンプル問題集",
+  "version": 1,
+  "updatedAt": "2026-06-01T00:00:00Z",
+  "cards": [
+    {
+      "id": "c1",
+      "front": "<b>apple</b>",
+      "back": "りんご<br>（果物）",
+      "tags": ["noun", "food"]
+    },
+    {
+      "id": "c2",
+      "front": "run",
+      "back": "<ul><li>走る</li><li>運営する</li></ul>",
+      "tags": ["verb"]
+    },
+    {
+      "id": "c3",
+      "front": "<i>beautiful</i>",
+      "back": "美しい",
+      "tags": ["adjective"]
+    }
+  ]
+}
