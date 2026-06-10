@@ -8,7 +8,13 @@ import {
   Settings,
   StudyState,
 } from '../models';
-import { CardResultValue, StudyConfig, StudyOrder, StudyRangeKind } from '../models/entities';
+import {
+  Card,
+  CardResultValue,
+  StudyConfig,
+  StudyOrder,
+  StudyRangeKind,
+} from '../models/entities';
 import { cardRepository } from '../repositories/card_repository';
 import { cardResultRepository } from '../repositories/card_result_repository';
 import { deleteDeckCompletely, loadDecks } from '../services/deck_service';
@@ -108,6 +114,7 @@ export class Controller {
     );
 
     this.view.on(UIEvent.StartStudy, (deckId: string) => this.openStudyStart(deckId));
+    this.view.on(UIEvent.ResumeStudy, (sessionId: string) => this.resumeStudy(sessionId));
     this.view.on(UIEvent.CloseStudyStart, () =>
       this.dispatch({ type: ActionType.SetStudyStart, studyStart: null }),
     );
@@ -213,7 +220,12 @@ export class Controller {
         return;
       }
 
-      const session = createSession(deck, config, queue.length);
+      const session = createSession(
+        deck,
+        config,
+        queue.length,
+        queue.map((c) => c.cardId),
+      );
       await persistSession(session);
       storage.setLastDeckId(deck.id);
 
@@ -257,6 +269,8 @@ export class Controller {
       const nextIndex = study.index + 1;
       if (nextIndex >= study.queue.length) {
         session.finishedAt = new Date().toISOString();
+        // 完了したセッションは再開対象にしないのでキューを破棄する。
+        session.queueCardIds = undefined;
         await persistSession(session);
         await this.showResult(study, session);
       } else {
@@ -387,7 +401,12 @@ export class Controller {
     const queue = result.wrongCards;
 
     try {
-      const session = createSession(deck, config, queue.length);
+      const session = createSession(
+        deck,
+        config,
+        queue.length,
+        queue.map((c) => c.cardId),
+      );
       await persistSession(session);
 
       const study: StudyState = {
@@ -411,6 +430,56 @@ export class Controller {
     this.dispatch({ type: ActionType.SetStudyStart, studyStart: null });
     this.dispatch({ type: ActionType.SetHistoryDetail, historyDetail: null });
     this.dispatch({ type: ActionType.NavigateTo, screen: Screen.Home });
+  }
+
+  /** 履歴の中断セッションを、保存済みのキューから復元して演習を再開する。 */
+  private async resumeStudy(sessionId: string): Promise<void> {
+    const session = this.model.history.find((s) => s.id === sessionId);
+    if (!session) return;
+    const deck = this.model.decks.find((d) => d.id === session.deckId);
+    if (!deck) {
+      this.dispatch({
+        type: ActionType.PushToast,
+        kind: 'error',
+        text: '問題集が見つかりません（再取り込みが必要かもしれません）',
+      });
+      return;
+    }
+
+    try {
+      const cards = await cardRepository.getByDeck(session.deckId);
+      const cardById = new Map(cards.map((c) => [c.cardId, c]));
+      const queue = (session.queueCardIds ?? [])
+        .map((id) => cardById.get(id))
+        .filter((c): c is Card => c !== undefined);
+
+      const results = await cardResultRepository.getBySession(session.id);
+      const answered = new Set(results.map((r) => r.cardId));
+      const index = queue.findIndex((c) => !answered.has(c.cardId));
+
+      if (queue.length === 0 || index === -1) {
+        this.dispatch({
+          type: ActionType.PushToast,
+          kind: 'error',
+          text: '再開できるカードが残っていません',
+        });
+        return;
+      }
+
+      const study: StudyState = {
+        session,
+        deckName: deck.name,
+        queue,
+        index,
+        flipped: false,
+      };
+      storage.setLastDeckId(deck.id);
+      this.dispatch({ type: ActionType.SetHistoryDetail, historyDetail: null });
+      this.dispatch({ type: ActionType.SetStudy, study });
+      this.dispatch({ type: ActionType.NavigateTo, screen: Screen.Study });
+    } catch (error) {
+      this.toastError('演習の再開に失敗しました', error);
+    }
   }
 
   private toastError(prefix: string, error: unknown): void {

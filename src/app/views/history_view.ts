@@ -49,6 +49,25 @@ function sessionRow(session: Session): string {
     </li>`;
 }
 
+/** 中断したセッションかどうか（保存済みキューがあり、未解答カードが残っている）。 */
+function isResumable(session: Session): boolean {
+  const answered = session.correct + session.incorrect;
+  return (
+    session.finishedAt === null &&
+    Array.isArray(session.queueCardIds) &&
+    session.queueCardIds.length > 0 &&
+    answered < session.total
+  );
+}
+
+/** 中断した演習を再開するボタン（再開可能なときだけ表示）。 */
+function resumeButton(session: Session): string {
+  if (!isResumable(session)) return '';
+  return `<button class="btn-primary" type="button" data-action="resume-study" data-session-id="${escapeHtml(
+    session.id,
+  )}">中断したところから再開</button>`;
+}
+
 function filterHistory(history: Session[], search: string): Session[] {
   const q = search.trim().toLocaleLowerCase();
   if (!q) return history;
@@ -156,6 +175,7 @@ export function renderHistoryDetailModal(detail: HistoryDetailState): string {
 
         <div class="modal-footer">
           <button class="btn-secondary" type="button" data-action="close-history-detail">閉じる</button>
+          ${resumeButton(session)}
         </div>
       </div>
     </div>`;
