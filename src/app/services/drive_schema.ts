@@ -6,6 +6,7 @@ export interface DriveCard {
   id: string;
   front: string; // HTML 文字列
   back: string; // HTML 文字列
+  detail?: string; // HTML 文字列（任意・展開式の詳しい解説）
   tags?: string[];
 }
 
@@ -52,6 +53,7 @@ export function parseDriveDeck(raw: unknown): DriveDeck {
       id: asString(card.id, `cards[${index}].id`),
       front: asString(card.front, `cards[${index}].front`),
       back: asString(card.back, `cards[${index}].back`),
+      detail: typeof card.detail === 'string' ? card.detail : undefined,
       tags: Array.isArray(card.tags)
         ? card.tags.filter((t): t is string => typeof t === 'string')
         : [],

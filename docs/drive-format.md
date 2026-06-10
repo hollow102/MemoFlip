@@ -15,6 +15,7 @@ MemoFlip は、設定で指定した Google Drive フォルダ内の **JSON フ�
       "id": "c1",               // 必須: 問題集内で一意なカード ID
       "front": "<b>apple</b>",  // 必須: 表面（HTML 文字列）
       "back": "りんご<br>（果物）", // 必須: 裏面（HTML 文字列）
+      "detail": "<p>語源は…</p>", // 任意: 裏面の展開式「詳しい解説」（HTML 文字列）
       "tags": ["noun", "food"]  // 任意: 絞り込み用タグ
     }
   ]
@@ -23,8 +24,10 @@ MemoFlip は、設定で指定した Google Drive フォルダ内の **JSON フ�
 
 ## 注意
 
-- `front` / `back` は **HTML 文字列** として表示されます。取り込み時に
+- `front` / `back` / `detail` は **HTML 文字列** として表示されます。取り込み時に
   [DOMPurify](https://github.com/cure53/DOMPurify) でサニタイズされ、危険なタグ/属性は除去されます。
+- `detail`（任意）を指定すると、裏面（回答）に「詳しい解説」の**展開式トグル**が表示され、
+  クリックで表示/非表示を切り替えられます。設問の構造や背景の補足説明に使います。
 - `id` が同じファイルを再取り込みすると、その問題集はカードごと最新内容に置き換えられます。
 - ファイルの MIME タイプは `application/json`（または `application/octet-stream`）である必要があります。
   Google ドキュメント形式のファイルは対象外です。
