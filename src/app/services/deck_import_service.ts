@@ -18,6 +18,7 @@ export async function importDeck(driveDeck: DriveDeck, sourceFileId: string | nu
     cardId: card.id,
     front: sanitizeHtml(card.front),
     back: sanitizeHtml(card.back),
+    detail: card.detail ? sanitizeHtml(card.detail) : '',
     tags: card.tags ?? [],
     order: index,
   }));

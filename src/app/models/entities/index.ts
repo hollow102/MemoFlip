@@ -19,6 +19,7 @@ export interface Card {
   cardId: string;
   front: string;
   back: string;
+  detail: string; // 展開式の詳しい解説（無い場合は空文字）。サニタイズ済み HTML。
   tags: string[];
   order: number;
 }

@@ -1,0 +1,42 @@
+{
+  "id": "sample-it-terms",
+  "name": "サンプル: IT 基礎用語",
+  "description": "MemoFlip 取り込み確認用のサンプル問題集（HTML の表/裏・タグ入り）",
+  "version": 1,
+  "updatedAt": "2026-06-06T00:00:00Z",
+  "cards": [
+    {
+      "id": "q1",
+      "front": "<b>HTTP</b> とは何の略？",
+      "back": "<p>HyperText Transfer Protocol</p><p class=\"text-sm\">Web ブラウザとサーバ間で HTML 等をやり取りする通信規約。</p>",
+      "detail": "<p>HTTP はステートレスなリクエスト/レスポンス型のプロトコルで、既定では TCP の 80 番ポートを使う。</p><ul><li><strong>HTTPS</strong> は TLS で暗号化した HTTP（443 番ポート）。</li><li>HTTP/2・HTTP/3 では多重化や QUIC により高速化されている。</li></ul>",
+      "tags": ["network", "web"]
+    },
+    {
+      "id": "q2",
+      "front": "次のうち <b>連想配列</b> を表すデータ構造は？",
+      "back": "<ul><li>ハッシュテーブル（Map / Dictionary）</li><li>キーと値のペアで管理する</li></ul>",
+      "detail": "<p>ハッシュ関数でキーを格納位置（バケット）へ写像するため、平均 <code>O(1)</code> で探索・挿入・削除ができる。</p><p>キーの衝突はチェイン法やオープンアドレス法で解消する。最悪計算量は <code>O(n)</code>。</p>",
+      "tags": ["data-structure"]
+    },
+    {
+      "id": "q3",
+      "front": "SQL の <code>SELECT</code> 文の役割は？",
+      "back": "テーブルから<strong>データを問い合わせ（検索）</strong>して取得する。",
+      "tags": ["database", "sql"]
+    },
+    {
+      "id": "q4",
+      "front": "TCP と UDP の最大の違いは？",
+      "back": "<table><tr><th>TCP</th><td>信頼性重視・順序保証・再送あり</td></tr><tr><th>UDP</th><td>低遅延重視・順序/再送なし</td></tr></table>",
+      "detail": "<p><strong>TCP</strong> は 3 ウェイハンドシェイクでコネクションを確立し、確認応答と再送で到達を保証する。Web・メール・ファイル転送向き。</p><p><strong>UDP</strong> はコネクションレスでオーバーヘッドが小さく、DNS・動画/音声ストリーミング・オンラインゲームなど遅延を嫌う用途に向く。</p>",
+      "tags": ["network"]
+    },
+    {
+      "id": "q5",
+      "front": "Git の <code>git commit</code> は何をする？",
+      "back": "ステージング（インデックス）に追加した変更を<br>ローカルリポジトリに<strong>記録</strong>する。",
+      "tags": ["git", "tool"]
+    }
+  ]
+}
