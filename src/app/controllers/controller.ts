@@ -8,13 +8,7 @@ import {
   Settings,
   StudyState,
 } from '../models';
-import {
-  Card,
-  CardResultValue,
-  StudyConfig,
-  StudyOrder,
-  StudyRangeKind,
-} from '../models/entities';
+import { Card, CardResultValue, StudyConfig, StudyOrder, StudyRangeKind } from '../models/entities';
 import { cardRepository } from '../repositories/card_repository';
 import { cardResultRepository } from '../repositories/card_result_repository';
 import { deleteDeckCompletely, loadDecks } from '../services/deck_service';
