@@ -189,6 +189,9 @@ export class View {
     const action = target.dataset.action;
 
     switch (action) {
+      case 'resume-study':
+        if (target.dataset.sessionId) this.emit(UIEvent.ResumeStudy, target.dataset.sessionId);
+        break;
       case 'close-setting':
         this.emit(UIEvent.CloseSetting);
         break;

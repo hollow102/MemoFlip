@@ -3,7 +3,12 @@ import { cardResultRepository } from '../repositories/card_result_repository';
 import { sessionRepository } from '../repositories/session_repository';
 
 /** 新しい演習セッションを生成する（未保存）。 */
-export function createSession(deck: Deck, config: StudyConfig, total: number): Session {
+export function createSession(
+  deck: Deck,
+  config: StudyConfig,
+  total: number,
+  queueCardIds: string[],
+): Session {
   return {
     id: crypto.randomUUID(),
     deckId: deck.id,
@@ -15,6 +20,7 @@ export function createSession(deck: Deck, config: StudyConfig, total: number): S
     total,
     correct: 0,
     incorrect: 0,
+    queueCardIds,
   };
 }
 

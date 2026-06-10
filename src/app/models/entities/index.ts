@@ -68,6 +68,11 @@ export interface Session {
   total: number;
   correct: number;
   incorrect: number;
+  /**
+   * 出題キューの cardId を出題順に保持する（中断した演習の再開に使う）。
+   * 演習中のみ保持し、完了時にクリアする。古い履歴には存在しない。
+   */
+  queueCardIds?: string[];
 }
 
 /** カード単位の解答結果。 */
