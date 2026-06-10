@@ -26,12 +26,26 @@ export function renderStudy(study: StudyState): string {
       <div class="flip-card ${flippedClass}" data-action="flip">
         <div class="flip-card-inner">
           <div class="flip-card-face flip-card-front"><div class="card-content">${current.front}</div></div>
-          <div class="flip-card-face flip-card-back"><div class="card-content">${current.back}</div></div>
+          <div class="flip-card-face flip-card-back"><div class="card-content">${current.back}${renderDetail(current.detail)}</div></div>
         </div>
       </div>
 
       <div class="study-actions">${actions}</div>
     </div>`;
+}
+
+/**
+ * 裏面の「詳しい解説」を展開式（native <details>）で描画する。detail が空なら何も出さない。
+ * data-action="card-detail" を付けてクリックがカードのフリップへ伝播しないようにする
+ * （View のイベント委譲は closest('[data-action]') で拾い、未知の action は無視されるため no-op になる）。
+ */
+function renderDetail(detail: string): string {
+  if (!detail) return '';
+  return `
+    <details class="card-detail" data-action="card-detail">
+      <summary class="card-detail-summary">詳しい解説</summary>
+      <div class="card-detail-body">${detail}</div>
+    </details>`;
 }
 
 function tagCheckbox(tag: string): string {

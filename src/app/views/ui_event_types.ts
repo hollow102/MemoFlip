@@ -8,6 +8,7 @@ export const UIEvent = {
   DeleteDeck: 'DELETE_DECK',
   SearchDecks: 'SEARCH_DECKS',
   StartStudy: 'START_STUDY',
+  ResumeStudy: 'RESUME_STUDY',
   CloseStudyStart: 'CLOSE_STUDY_START',
   BeginStudy: 'BEGIN_STUDY',
   FlipCard: 'FLIP_CARD',
