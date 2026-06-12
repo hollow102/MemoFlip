@@ -54,6 +54,9 @@ export class View {
     this.els.main.addEventListener('click', (e) => this.onMainClick(e));
     this.els.main.addEventListener('input', (e) => this.onMainInput(e));
     this.els.modalRoot.addEventListener('click', (e) => this.onModalClick(e));
+
+    // 幅が変わるとカードの収まり方も変わるため、リサイズ時に文字サイズを再計算する。
+    this.doc.defaultView?.addEventListener('resize', () => this.fitStudyText());
   }
 
   on(event: UIEvent, handler: UIEventHandler): void {
@@ -69,6 +72,30 @@ export class View {
     this.renderScreen(model);
     this.renderModal(model);
     this.renderToasts(model.toastMessages);
+
+    if (model.screen === Screen.Study) this.fitStudyText();
+  }
+
+  /**
+   * 演習カードの本文（front/back）が面に収まらない場合、収まるまで font-size を段階的に
+   * 下げる（FIT_MAX → FIT_MIN）。全置換描画のため毎回リセットしてから再計測する。
+   * 裏面は backface-visibility:hidden だがレイアウト寸法は持つため計測できる。
+   */
+  private fitStudyText(): void {
+    const FIT_MAX = 20; // px（card-content の既定 text-xl 相当）
+    const FIT_MIN = 12; // px（これ以上は小さくしない）
+
+    this.els.main.querySelectorAll<HTMLElement>('.flip-card-face').forEach((face) => {
+      const content = face.querySelector<HTMLElement>('.card-content');
+      if (!content) return;
+
+      content.style.fontSize = '';
+      let size = FIT_MAX;
+      while (size > FIT_MIN && face.scrollHeight > face.clientHeight) {
+        size -= 1;
+        content.style.fontSize = `${size}px`;
+      }
+    });
   }
 
   private applyTheme(theme: Theme): void {
