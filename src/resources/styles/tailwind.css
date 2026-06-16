@@ -29,7 +29,7 @@
   }
 
   .app-main {
-    @apply mx-auto w-full max-w-3xl flex-1 px-4 py-6;
+    @apply mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-6;
   }
 
   .icon-button {
@@ -50,7 +50,7 @@
 
   /* フリップカード */
   .flip-card {
-    @apply relative mx-auto aspect-[3/2] w-full max-w-xl cursor-pointer select-none [perspective:1200px];
+    @apply relative mx-auto min-h-0 w-full max-w-xl flex-1 cursor-pointer select-none [perspective:1200px];
   }
 
   .flip-card-inner {
@@ -183,7 +183,7 @@
 
   /* 演習画面 */
   .study {
-    @apply space-y-4;
+    @apply flex h-full flex-col gap-4;
   }
 
   .study-topbar {
